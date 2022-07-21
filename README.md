@@ -16,3 +16,30 @@ Encrypted values are usually longer than plain text values.  Sometimes much long
 ![Features](img/app.jpg)
 ## Data DB
 ![Features](img/database.jpg)
+
+## Configuration
+
+Add APP_KEY as environment variable to .env file
+
+.env
+
+    APP_KEY = yourkey
+
+### # Encryption
+
+To encrypt before insert/update into database, use helper function from utils/crypt.js. Ex
+
+    import { encrypt } from '@/utils/crypt.js'
+    ...
+    ...
+    const first_name = req.body.first_name
+    const query = `INSERT INTO user SET first_name = ${encrypt(first_name)}`
+
+### # Decrypt
+
+To get decrypted value from encrypted data, use helper function from utils/crypt.js. Ex
+
+    import { decrypt } from '@/utils/crypt.js'
+    ...
+    ...
+    const query = `SELECT *, ${decrypt('first_name')} FROM user`

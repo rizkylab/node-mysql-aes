@@ -161,6 +161,8 @@ exports.update = (req, res) => {
                             ${decrypt('first_name')},
                             ${decrypt('last_name')},
                             ${decrypt('email')}
+			    ${decrypt('phone')}
+
                         FROM user
                         WHERE id = ?`
                     //user the connection
