@@ -39,8 +39,7 @@ To encrypt before insert/update into database, use helper function from utils/cr
 
 #### SQL Query
 
-    INSERT INTO user
-    SET first_name = HEX( AES_ENCRYPT('value', 'your-key') )
+    INSERT INTO user SET first_name = HEX(AES_ENCRYPT('Test Nama', 'app_key') ), last_name = HEX(AES_ENCRYPT('Last Name', 'app_key') ), phone = HEX(AES_ENCRYPT('0811111111', 'app_key') ), email = HEX(AES_ENCRYPT('testmail@mail.com', 'app_key') ), comments = 'comment';
 
 
 ## Decrypt
@@ -56,15 +55,8 @@ To get decrypted value from encrypted data, use helper function from utils/crypt
 
 #### SQL Query
 
-    SELECT
-        *
-        DECRYPT( UNHEX(first_name), 'your-key' ) as first_name
-    FROM user
+    SELECT *, AES_DECRYPT( UNHEX(first_name), 'app_key' ) as first_name FROM user;
 
 Use decrypt in filter
 
-    SELECT
-        *
-        DECRYPT( UNHEX(first_name), 'your-key' ) as first_name
-    FROM user
-    WHERE DECRYPT( UNHEX(first_name), 'your-key' ) like '%nama%'
+    SELECT *, AES_DECRYPT( UNHEX(first_name), 'app_key' ) as first_name FROM user WHERE AES_DECRYPT(UNHEX(first_name), 'app_key') like '%Test%';
