@@ -25,7 +25,9 @@ Add APP_KEY as environment variable to .env file
 
     APP_KEY = yourkey
 
-### # Encryption
+## Encryption
+
+#### Node JS
 
 To encrypt before insert/update into database, use helper function from utils/crypt.js. Ex
 
@@ -35,7 +37,15 @@ To encrypt before insert/update into database, use helper function from utils/cr
     const first_name = req.body.first_name
     const query = `INSERT INTO user SET first_name = ${encrypt(first_name)}`
 
-### # Decrypt
+#### SQL Query
+
+    INSERT INTO user
+    SET first_name = HEX( AES_ENCRYPT('value', 'your-key') )
+
+
+## Decrypt
+
+#### Node JS
 
 To get decrypted value from encrypted data, use helper function from utils/crypt.js. Ex
 
@@ -43,3 +53,18 @@ To get decrypted value from encrypted data, use helper function from utils/crypt
     ...
     ...
     const query = `SELECT *, ${decrypt('first_name')} FROM user`
+
+#### SQL Query
+
+    SELECT
+        *
+        DECRYPT( UNHEX(first_name), 'your-key' ) as first_name
+    FROM user
+
+Use decrypt in filter
+
+    SELECT
+        *
+        DECRYPT( UNHEX(first_name), 'your-key' ) as first_name
+    FROM user
+    WHERE DECRYPT( UNHEX(first_name), 'your-key' ) like '%nama%'
