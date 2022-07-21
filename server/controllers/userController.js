@@ -160,7 +160,7 @@ exports.update = (req, res) => {
                             *,
                             ${decrypt('first_name')},
                             ${decrypt('last_name')},
-                            ${decrypt('email')}
+                            ${decrypt('email')},
 			    ${decrypt('phone')}
 
                         FROM user
